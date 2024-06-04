@@ -2,6 +2,8 @@ import XCTest
 @testable import UserList
 
 final class UserListRepositoryTests: XCTestCase {
+    private var viewModel : UserListViewModel! = UserListViewModel()
+
     // Happy path test case
     func testFetchUsersSuccess() async throws {
         // Given
@@ -22,6 +24,36 @@ final class UserListRepositoryTests: XCTestCase {
         XCTAssertEqual(users[1].name.last, "Smith")
         XCTAssertEqual(users[1].dob.age, 26)
         XCTAssertEqual(users[1].picture.medium, "https://example.com/medium.jpg")
+    }
+    
+
+    // MARK: Tests rajoutés
+    func testReloadUsers() async throws {
+        let repository = UserListRepository(executeDataRequest: mockExecuteDataRequest)
+        let quantity = 2
+        let users = try await repository.fetchUsers(quantity: quantity)
+        
+       
+        viewModel.users.append(contentsOf: users)
+        // When
+        viewModel.reloadUsers()
+        
+        //then
+        XCTAssertEqual(viewModel.users.count, 0)
+    }
+    
+    func testFetchMoreUsers() async throws {
+        let repository = UserListRepository(executeDataRequest: mockExecuteDataRequest)
+        let quantity = 1
+        let users = try await repository.fetchUsers(quantity: quantity)
+        
+       
+        viewModel.users.append(contentsOf: users)
+        // When
+        viewModel.fetchMoreUsers(user: users[1])
+        
+        //then
+        XCTAssertEqual(viewModel.users.count, 2)
     }
     
     // Unhappy path test case: Invalid JSON response

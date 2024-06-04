@@ -29,4 +29,28 @@ struct UserListRepository {
         
         return response.results.map(User.init)
     }
+    
 }
+
+//    // rajoutons ici les autres func pour voir
+//    var users: [User] = []
+//    var isLoading = false
+//    var isGridView = false
+//    var quantit: Int = 2
+//
+//
+//    func shouldLoadMoreData(currentItem item: User) -> Bool {
+//        guard let lastItem = users.last else { return false }
+//        return !isLoading && item.id == lastItem.id
+//    }
+//
+//    func fetchMoreUsers(user: User) async throws {
+//        if shouldLoadMoreData(currentItem: user) {
+//            try await fetchUsers(quantity: quantit)
+//        }
+//    }
+//    mutating func reloadUsers() async throws {
+//        users.removeAll()
+//        try await fetchUsers(quantity: quantit)
+//    }
+//
